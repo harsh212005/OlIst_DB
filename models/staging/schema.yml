@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Customer dimension from Olist. One row per customer with location data."
+    columns:
+      - name: customer_id
+        description: "Primary key"
+        tests:
+          - not_null
+          - unique
+      - name: customer_city
+        description: "City where customer is located"
+      - name: customer_state
+        description: "Two-letter state code"
+
+  - name: stg_orders
+    description: "Order header records. One row per order with status and timestamps."
+    config:
+      tags: ['daily']
+    columns:
+      - name: order_id
+        description: "Primary key"
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Foreign key to stg_customers"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_status
+        description: "Current status (delivered, shipped, processing, canceled)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['delivered','approved','created','shipped', 'processing', 'canceled','unavailable','invoiced']
