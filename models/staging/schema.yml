@@ -36,4 +36,4 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['delivered','approved','created','shipped', 'processing', 'canceled','unavailable','invoiced']
+              values: ['delivered','approved','created','shipped', 'processing', 'canceled','unavailable','invoiced','hello']
